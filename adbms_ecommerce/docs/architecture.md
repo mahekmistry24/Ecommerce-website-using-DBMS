@@ -1,0 +1,78 @@
+# System Architecture
+
+## Smart Distributed E-Commerce Database System
+
+### Layer Architecture
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    PRESENTATION LAYER                        │
+│                   (Streamlit Frontend)                        │
+│  ┌──────┐ ┌────────┐ ┌──────┐ ┌───────┐ ┌─────────┐       │
+│  │ Home │ │Products│ │ Cart │ │Orders │ │Analytics│  ...    │
+│  └──┬───┘ └───┬────┘ └──┬───┘ └───┬───┘ └────┬────┘       │
+└─────┼─────────┼─────────┼─────────┼──────────┼──────────────┘
+      │         │         │         │          │
+      └─────────┴─────────┴─────────┴──────────┘
+                          │ HTTP/REST
+┌─────────────────────────┴───────────────────────────────────┐
+│                      API LAYER                               │
+│                    (FastAPI Backend)                          │
+│  ┌────┐ ┌────────┐ ┌──────┐ ┌─────────┐ ┌───────┐ ┌───┐   │
+│  │Auth│ │Products│ │Orders│ │Inventory│ │Reviews│ │XML│   │
+│  └──┬─┘ └───┬────┘ └──┬───┘ └────┬────┘ └───┬───┘ └─┬─┘   │
+└─────┼────────┼─────────┼──────────┼──────────┼───────┼──────┘
+      │        │         │          │          │       │
+┌─────┼────────┼─────────┼──────────┼──────────┼───────┼──────┐
+│     │    SERVICE LAYER (Business Logic)       │       │      │
+│  ┌──┴────────┴─────────┴──────────┴──┐  ┌────┴───────┴──┐  │
+│  │     Order Service                  │  │ Search Service│  │
+│  │     Stock Service                  │  │ Analytics Svc │  │
+│  └────────────┬───────────────────────┘  └───────┬───────┘  │
+└───────────────┼──────────────────────────────────┼──────────┘
+                │                                  │
+      ┌─────────┴───────────┐            ┌─────────┴─────────┐
+      │    PostgreSQL 18     │            │   MongoDB 8.2      │
+      │   (Relational Data)  │            │   (Document Data)  │
+      │                      │            │                    │
+      │  • users             │            │  • products        │
+      │  • orders            │            │  • reviews         │
+      │  • order_items       │            │  • logs            │
+      │  • payments          │            │                    │
+      │  • shipments         │            │  Indexes:          │
+      │  • warehouses        │            │  • product_id      │
+      │  • inventory         │            │  • category        │
+      │  • order_audit_log   │            │  • brand           │
+      │                      │            │  • text search     │
+      │  Features:           │            │                    │
+      │  • ACID Transactions │            │  Features:         │
+      │  • Stored Procedures │            │  • Aggregation     │
+      │  • Triggers          │            │  • Flexible Schema │
+      │  • Partitioning      │            │  • Event Logging   │
+      │  • Indexes           │            │  • Text Search     │
+      └──────────────────────┘            └────────────────────┘
+```
+
+### Why Hybrid Architecture?
+
+| Data Type | Database | Reason |
+|-----------|----------|--------|
+| Users, Orders, Payments | PostgreSQL | Requires ACID transactions, referential integrity |
+| Product Catalog | MongoDB | Flexible attributes per category, nested documents |
+| Reviews | MongoDB | Variable length, schema-less, easy aggregation |
+| Activity Logs | MongoDB | High write volume, flexible metadata |
+| Inventory | PostgreSQL | Transactional updates, warehouse constraints |
+
+### Data Flow: Order Placement
+
+1. User selects products (MongoDB → API)
+2. Stock checked across warehouses (PostgreSQL)
+3. Best warehouse selected (PostgreSQL query)
+4. Order created in single transaction (PostgreSQL):
+   - INSERT into orders
+   - INSERT into order_items
+   - UPDATE inventory (reduce stock)
+   - INSERT into payments
+   - INSERT into shipments
+5. Event logged (MongoDB logs collection)
+6. Audit trail recorded (PostgreSQL trigger)

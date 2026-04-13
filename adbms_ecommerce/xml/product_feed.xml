@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ProductFeed>
+  <Product id="P5001">
+    <Name>Wireless Earbuds Pro</Name>
+    <Brand>Samsung</Brand>
+    <Category>Electronics</Category>
+    <Price>3999</Price>
+    <Description>Premium wireless earbuds with ANC and 360 Audio.</Description>
+    <Tags>
+      <Tag>earbuds</Tag>
+      <Tag>wireless</Tag>
+      <Tag>ANC</Tag>
+      <Tag>samsung</Tag>
+    </Tags>
+    <Attributes>
+      <Battery>8 hours</Battery>
+      <Connectivity>Bluetooth 5.3</Connectivity>
+      <WaterResistance>IPX7</WaterResistance>
+    </Attributes>
+  </Product>
+  <Product id="P5002">
+    <Name>Organic Green Tea Collection</Name>
+    <Brand>Tetley</Brand>
+    <Category>Food</Category>
+    <Price>599</Price>
+    <Description>Set of 5 organic green tea flavors in premium packaging.</Description>
+    <Tags>
+      <Tag>tea</Tag>
+      <Tag>organic</Tag>
+      <Tag>green-tea</Tag>
+      <Tag>healthy</Tag>
+    </Tags>
+    <Attributes>
+      <PackSize>100 bags</PackSize>
+      <Flavors>5</Flavors>
+      <Organic>Yes</Organic>
+    </Attributes>
+  </Product>
+  <Product id="P5003">
+    <Name>Yoga Mat Premium</Name>
+    <Brand>Decathlon</Brand>
+    <Category>Fitness</Category>
+    <Price>1299</Price>
+    <Description>Non-slip premium yoga mat with carrying strap.</Description>
+    <Tags>
+      <Tag>yoga</Tag>
+      <Tag>fitness</Tag>
+      <Tag>mat</Tag>
+      <Tag>exercise</Tag>
+    </Tags>
+    <Attributes>
+      <Thickness>6mm</Thickness>
+      <Material>TPE</Material>
+      <Length>183cm</Length>
+    </Attributes>
+  </Product>
+</ProductFeed>

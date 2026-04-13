@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Order order_id="1" date="2026-01-15T10:30:00">
+  <Customer user_id="2">
+    <Name>Rahul Sharma</Name>
+  </Customer>
+  <ShippingAddress>42 MG Road, Mumbai</ShippingAddress>
+  <Items>
+    <Item product_id="P1001">
+      <ProductName>Wireless Headphones</ProductName>
+      <Quantity>1</Quantity>
+      <UnitPrice>2499.00</UnitPrice>
+      <Subtotal>2499.00</Subtotal>
+    </Item>
+    <Item product_id="P1002">
+      <ProductName>Smart Watch Pro</ProductName>
+      <Quantity>1</Quantity>
+      <UnitPrice>2999.00</UnitPrice>
+      <Subtotal>2999.00</Subtotal>
+    </Item>
+  </Items>
+  <Payment>
+    <Mode>upi</Mode>
+    <Status>completed</Status>
+    <TransactionRef>TXN-1-20260115103000</TransactionRef>
+  </Payment>
+  <TotalAmount>5498.00</TotalAmount>
+  <Status>delivered</Status>
+</Order>
